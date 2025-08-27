@@ -1,31 +1,43 @@
-import React, { use, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { FaHeartCircleXmark } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromList } from '../redux/slices/wishlistSlice';
 
 function WhishList() {
-    const[active,setActive]=useState(1)
+
+  const dispatch=useDispatch()
+    const wishlistdata=useSelector((state)=>state.wishlistReducer)
+    console.log(wishlistdata);
+    const [WishListProducts,setWishListProducts] =useState([])
+    console.log(WishListProducts);
+    
+    useEffect(()=>{setWishListProducts(wishlistdata.item)},[wishlistdata])
+    console.log(WishListProducts);
+    
   return (
     <div>
-      {active ?<div>
+      {WishListProducts.length>0 ? <div>
   <div class="text-center h3 m-3 fw-semibold">Wishlist Products</div>
 
   <div className="d-flex ">
-    <Card
+    {
+      WishListProducts.map((item)=>(<Card
       style={{ width: "18rem" }}
       className="m-5 rounded-2xl shadow-2xl border-0 hover:bg-slate-400"
     >
       <Card.Img
         variant="top"
-        src="https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp"
+        src={item.thumbnail}
       />
       <Card.Body>
-        <Card.Title>Product Name</Card.Title>
-        <Card.Text>Price:200</Card.Text>
+        <Card.Title>{item.title}</Card.Title>
+        <Card.Text>Price:{item.price}</Card.Text>
         <div className="d-flex justify-content-between">
           <Button variant="primary">
-            <FaHeartCircleXmark />
+            <FaHeartCircleXmark onClick={()=>dispatch(removeFromList(item.id))} />
           </Button>
           <Button variant="primary">
             <FaShoppingCart />
@@ -33,6 +45,8 @@ function WhishList() {
         </div>
       </Card.Body>
     </Card>
+))
+    }
   </div>
 </div>
 

@@ -10,7 +10,7 @@ function Cards({ Products }) {
           <img
             src={Products.thumbnail}
             
-            className="img-fluid mb-2"
+            className="img-fluid mb-2 mx-auto"
             style={{ height: '200px' }}
           />
         </Link>

@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MdLocalOffer } from "react-icons/md";
+import { useDispatch } from 'react-redux';
+import { addToWishList } from '../redux/slices/wishlistSlice';
+import { addToCart } from '../redux/slices/cartSlice';
+import { Button } from 'react-bootstrap';
+
+
 
 function ViewProducts() {
+
+ const dispatch = useDispatch()
 
   //1 to get current id from the url
   const { id } = useParams();
@@ -44,14 +52,17 @@ useEffect(()=>{
       
           
           
-          <img src={view.thumbnail} alt={view.title} style={{ height: '300px' }} /> <br />
-          <button  className='btn btn-success '>Buy now</button>
+          <img src={view.thumbnail} alt={view.title} className='mx-auto' style={{ height: '300px' }} /> <br />
+         <div className='d-flex justify-around'>
+           <button  className='btn btn-success ' onClick={()=>dispatch(addToWishList(view))}  >wishList</button>
+           <button  className='btn btn-success ' onClick={()=>dispatch(addToCart(view))} >Cart</button>
+         </div>
           
     
       
       
     </div>
-      <div className='p-5' style={{ backgroundColor: 'lightblue' }}>
+      <div className='bg-gray-200 p-5'>
         <h1 className='text-danger'>{view.title}</h1>
         <p className="mt-3">{view.description}</p>
         <h5 className='text-success'>Special Price</h5>
@@ -62,7 +73,7 @@ useEffect(()=>{
     <h4 className='text-primary'>Available offers</h4>
     <p><MdLocalOffer />Bank Offer5% Unlimited Cashback on Flipkart Axis Bank Credit Card</p>
     <p><MdLocalOffer />Bank Offer10% off on Axis Credit Card Transactions, up to ₹750 on orders of ₹1000 and above</p>
-    
+    <Button>Buy</Button>
       </div>
 
 
